@@ -11,11 +11,12 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
+model User {
     id        Int      @id @default(autoincrement())
-    name      String
+    country   String
+    currency  String
+    code      String
+    isActive  Boolean @default(false)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-
-    @@index([name])
 }
