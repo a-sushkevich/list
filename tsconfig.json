@@ -8,7 +8,6 @@
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
-
     /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
@@ -36,7 +35,7 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
-, "prisma/parseData.mjs"  ],
+    ".next/types/**/*.ts",
+  ],
   "exclude": ["node_modules"]
 }
