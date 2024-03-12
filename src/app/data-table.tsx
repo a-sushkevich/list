@@ -6,6 +6,7 @@ import {
   type ColumnDef,
   type ColumnFiltersState,
   type SortingState,
+  type RowSelectionState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -25,6 +26,8 @@ import {
 
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
+import { updateTable } from "./actions/updateTable"
+import { type TableRecord } from "./types"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -39,25 +42,32 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
-  const [rowSelection, setRowSelection] = React.useState({})
-
-
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+  
   const table = useReactTable({
     data,
     columns,
+
+    state: {
+      sorting,
+      columnFilters,
+      rowSelection,
+    },
+    onRowSelectionChange: setRowSelection,
+    enableRowSelection: true,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      rowSelection,
-    },
   })
+
+  const submitChanges = async () => {
+    const selectedRows = table.getSelectedRowModel().rows.map(item => item.original);
+
+    await updateTable(selectedRows as TableRecord[]);
+  }
 
   return (
     <div>
@@ -136,6 +146,16 @@ export function DataTable<TData, TValue>({
       <div className="flex-1 text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={submitChanges}
+          disabled={false}
+        >
+          Submit changes
+        </Button>
       </div>
     </div>
   )
