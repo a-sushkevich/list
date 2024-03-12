@@ -7,13 +7,15 @@
     "seed": "node --import=tsimp/import src/server/seed.ts"
   },
   "scripts": {
-    "build": "next build",
+    "postinstall": "prisma generate",
     "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:reset": "prisma migrate reset",
     "db:studio": "prisma studio",
     "dev": "next dev",
-    "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "build": "next build"
   },
   "dependencies": {
     "@prisma/client": "^5.10.2",

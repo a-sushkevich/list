@@ -1,18 +1,5 @@
 version: "3.9"
 services:
-  # web:
-  #   build:
-  #     context: .
-  #     args:
-  #       NEXT_PUBLIC_CLIENTVAR: "clientvar"
-  #   ports:
-  #     - 3000:3000
-  #   volumes:
-  #     - .:/app
-  #   environment:
-  #     - DATABASE_URL=postgresql://alexinforest:postgres@db:5432/list?schema=public
-  #   depends_on:
-  #     - db
   db:
     image: postgres:15.3
     container_name: postgres
