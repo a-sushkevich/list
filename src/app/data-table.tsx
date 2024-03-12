@@ -63,10 +63,14 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
   })
 
+  const resetSelection = () => table.resetRowSelection(true);
+
   const submitChanges = async () => {
     const selectedRows = table.getSelectedRowModel().rows.map(item => item.original);
 
     await updateTable(selectedRows as TableRecord[]);
+
+    resetSelection();
   }
 
   return (
@@ -107,6 +111,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className={row.original.isActive ? 'bg-destructive/50' : ''}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -147,7 +152,15 @@ export function DataTable<TData, TValue>({
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-start space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={resetSelection}
+          disabled={false}
+        >
+          Reset selection
+        </Button>
         <Button
           variant="outline"
           size="sm"

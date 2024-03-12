@@ -70,6 +70,17 @@ export const columns: ColumnDef<CountryCurrencyCodes>[] = [
   },
   {
     accessorKey: "isActive",
-    header: "Active",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Active
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => row.original.isActive ? 'YES': 'NO',
   },
 ]
